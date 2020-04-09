@@ -38,8 +38,17 @@ for friend in friends["items"]:
 # информация о записях на стене пользователя(500 запросов в сутки(ограничение))
 print("\n Записи пользователя")
 wall_info = vk_api.wall.get(owner_id = MyData.my_id, v=5.1)
+counter = 1
 for i in wall_info['items']:
-    print(i)
+    print(counter, ". ", i)
+    # информация о лайкнувших пользователях
+    like_list = vk_api.likes.getList(type='post', owner_id=MyData.my_id, item_id=i["id"], filter='likes', extended=1,
+                                     v=5.103)
+    print("Список лайкнувших запись:")
+    for i in like_list['items']:
+        print("\t", i)
+    counter += 1
+    print("\n")
 
 # топ 5 подписок пользователя
 print("\n Топ 5 подписок пользователя")
@@ -72,12 +81,6 @@ for follower in followers_info['items']:
 # посещения)
 
 
-# информация о лайкнувших пользователях
-like_list = vk_api.likes.getList(type='post', owner_id=MyData.my_id, item_id=1434, filter='likes', extended=1,
-                                 v=5.103)
-print("\nСписок лайкнувших запись")
-for i in like_list['items']:
-    print(i)
 
 # Список новостей по запросу в параметре q, это может быть ответ на сообщение под записью
 # текст записи и тд.
